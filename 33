@@ -1,58 +1,75 @@
 #include<stdio.h>
-
-main()
+int main()
 {
- int ms, ps, nop, np, rempages, i, j, x, y, pa, offset;
- int s[10], fno[10][20];
+intno_of_frames, no_of_pages, frames[10], pages[30], temp[10], flag1, flag2, flag3, i, j, k, pos, max, faults = 0;
+printf("Enter number of frames: ");
+scanf("%d", &no_of_frames);
+printf("Enter number of pages: ");
+scanf("%d", &no_of_pages);
+printf("Enter page reference string: ");
+    for(i = 0; i<no_of_pages; ++i){
+scanf("%d", &pages[i]);
+    }
+    for(i = 0; i<no_of_frames; ++i){
+        frames[i] = -1;
+    }
+    for(i = 0; i<no_of_pages; ++i){
+        flag1 = flag2 = 0;
 
+        for(j = 0; j <no_of_frames; ++j){
+            if(frames[j] == pages[i]){
+                   flag1 = flag2 = 1;
+                   break;
+               }
+        }      
+        if(flag1 == 0){
+            for(j = 0; j <no_of_frames; ++j){
+                if(frames[j] == -1){
+                    faults++;
+                    frames[j] = pages[i];
+                    flag2 = 1;
+                    break;
+                }
+            }    
+        }
+        if(flag2 == 0){
+         flag3 =0;
+            for(j = 0; j <no_of_frames; ++j){
+             temp[j] = -1;
 
+             for(k = i + 1; k <no_of_pages; ++k){
+             if(frames[j] == pages[k]){
+             temp[j] = k;
+             break;
+             }
+             }
+            }
+            for(j = 0; j <no_of_frames; ++j){
+             if(temp[j] == -1){
+pos = j;
+             flag3 = 1;
+             break;
+             }
+            }
+            if(flag3 ==0){
+             max = temp[0];
+pos = 0;
 
-printf("\nEnter the memory size -- ");
-scanf("%d",&ms);
-
-printf("\nEnter the page size -- ");
-scanf("%d",&ps);
-
-nop = ms/ps;
-printf("\nThe no. of pages available in memory are -- %d ",nop);
-
-printf("\nEnter number of processes -- ");
- scanf("%d",&np);
-rempages = nop;
-for(i=1;i<=np;i++)
-
-{
-
-printf("\nEnter no. of pages required for p[%d]-- ",i);
- scanf("%d",&s[i]);
-
-if(s[i] >rempages)
-{
-
-printf("\nMemory is Full");
-break;
-}
-rempages = rempages - s[i];
-
-printf("\nEnter pagetable for p[%d] --- ",i);
- for(j=0;j<s[i];j++)
-scanf("%d",&fno[i][j]);
-}
-
-printf("\nEnter Logical Address to find Physical Address ");
-printf("\nEnter process no. and pagenumber and offset -- ");
-
-scanf("%d %d %d",&x,&y, &offset);
-
-
-
-if(x>np || y>=s[i] || offset>=ps)
-printf("\nInvalid Process or Page Number or offset");
-
-else
-{ pa=fno[x][y]*ps+offset;
-printf("\nThe Physical Address is -- %d",pa);
-
-}
-
+             for(j = 1; j <no_of_frames; ++j){
+             if(temp[j] > max){
+             max = temp[j];
+pos = j;
+             }
+             }            
+            }
+frames[pos] = pages[i];
+faults++;
+        } 
+printf("\n");
+        for(j = 0; j <no_of_frames; ++j){
+printf("%d\t", frames[j]);
+        }
+    }
+printf("\n\nTotal Page Faults = %d", faults);
+    return 0;
 }
