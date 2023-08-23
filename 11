@@ -1,36 +1,19 @@
-# Python program to illustrate the concept
-# of threading
-# importing the threading module
-import threading
-
-
-def print_cube(num):
-	# function to print cube of given num
-	print("Cube: {}" .format(num * num * num))
-
-
-def print_square(num):
-	# function to print square of given num
-	print("Square: {}" .format(num * num))
-
-
-if __name__ =="__main__":int square of given num
-	print("Square: {}" .format(num * num))
-
-
-	# creating thread
-	t1 = threading.Thread(target=print_square, args=(10,))
-	t2 = threading.Thread(target=print_cube, args=(10,))
-
-	# starting thread 1
-	t1.start()
-	# starting thread 2
-	t2.start()
-
-	# wait until thread 1 is completely executed
-	t1.join()
-	# wait until thread 2 is completely executed
-	t2.join()
-
-	# both threads completely executed
-	print("Done!")
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>  
+#include<pthread.h>
+void *myThreadFun(void *vargp)
+{
+    sleep(1);
+    printf("Printing GeeksQuiz from Thread \n");
+    return NULL;
+} 
+int main()
+{
+    pthread_t thread_id;
+    printf("Before Thread\n");
+    pthread_create(&thread_id, NULL, myThreadFun, NULL);
+    pthread_join(thread_id, NULL);
+    printf("After Thread\n");
+    exit(0);
+}
