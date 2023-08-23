@@ -1,24 +1,26 @@
-#include<stdio.h>
-
-int main()
+#include <stdio.h>
+struct clientData
+{                              
+unsigned int acctNum;
+char lastName[ 15 ];     
+char firstName[ 10 ];   
+double balance;       
+};                
+int main( void )
+{ 
+unsigned int i;       
+struct clientData blankClient = { 0, "", "", 0.0 }; 
+FILE *cfPtr;
+if ( ( cfPtr = fopen( "credit.dat", "wb" ) ) == NULL )
 {
-    FILE *fp;
-    fp=fopen("scaler.txt","r");
-    if(!fp) 
-    {
-        printf("Error: File cannot be opened\n") ;
-        return 0;
-    }
-    
-    printf("Position pointer in the beginning : %ld\n",ftell(fp));
-    
-    char ch;
-    while(fread(&ch,sizeof(ch),1,fp)==1)
-    {
-        printf("%c",ch);
-    }
-    
-    printf("\nSize of file in bytes is : %ld\n",ftell(fp));
-    fclose(fp);
-    return 0;
+puts( "File could not be opened." );
+}
+else
+{                              
+for ( i = 1; i <= 100; ++i )
+{                                   
+fwrite( &blankClient, sizeof( struct clientData ), 1, cfPtr );
+}                                                
+fclose ( cfPtr );
+}
 }
