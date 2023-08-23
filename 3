@@ -1,88 +1,32 @@
-def findWaitingTime(processes, n, bt, wt):
-
-
-    wt[0] = 0
-
-    for i in range(1, n ):
-
-        wt[i] = bt[i - 1] + wt[i - 1] 
- 
-
-
-def findTurnAroundTime(processes, n, bt, wt, tat):
- 
-    for i in range(n):
-
-        tat[i] = bt[i] + wt[i]
- 
-
-def findavgTime( processes, n, bt):
- 
-
-    wt = [0] * n
-
-    tat = [0] * n 
-
-    total_wt = 0
-
-    total_tat = 0
- 
-
-
-
-    findWaitingTime(processes, n, bt, wt)
- 
-
-
-
-    findTurnAroundTime(processes, n, bt, wt, tat)
- 
-
-    print( "Processes Burst time " +" Waiting time " + " Turn around time")
- 
-
-
-    for i in range(n):
-
-     
-
-        total_wt = total_wt + wt[i]
-
-        total_tat = total_tat + tat[i]
-
-        print(" " + str(i + 1) + "\t\t" +
-
-                    str(bt[i]) + "\t " +
-
-                    str(wt[i]) + "\t\t " +
-
-                    str(tat[i])) 
- 
-
-    print( "Average waiting time = "+
-
-                   str(total_wt / n))
-
-    print("Average turn around time = "+
-
-                     str(total_tat / n))
- 
-
-
-if __name__ =="__main__":
-
-     
-
-
-
-    processes = [ 1, 2, 3]
-
-    n = len(processes)
- 
-
-
-
-    burst_time = [10, 5, 8]
- 
-
-    findavgTime(processes, n, burst_time)
+include<stdio.h>
+int main()
+{
+int n,bt[20],wt[20],tat[20],i,j; 
+float avwt=0,avtat=0;
+printf("Enter total number of processes(maximum 20):");
+scanf("%d",&n);
+printf("\nEnter Process Burst Time\n");
+for(i=0;i<n;i++)
+{
+printf("P[%d]:",i+1);
+scanf("%d",&bt[i]);
+}
+ wt[0]=0;
+for(i=1;i<n;i++)
+{ 
+wt[i]=0;
+for(j=0;j<i;j++)
+wt[i]+=bt[j];
+}
+printf("\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time");
+ for(i=0;i<n;i++)
+{
+tat[i]=bt[i]+wt[i]; 
+avwt+=wt[i]; 
+avtat+=tat[i];
+printf("\nP[%d]\t\t%d\t\t%d\t\t%d",i+1,bt[i],wt[i],tat[i]);
+} avwt=avwt/n;
+ avtat=avtat/n;
+ printf("\n\nAverage Waiting Time:%.2f",avwt);
+printf("\nAverage Turnaround Time:%.2f",avtat);
+}
